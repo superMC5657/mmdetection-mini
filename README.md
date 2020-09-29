@@ -4,7 +4,7 @@ mmdetection完全一致，系统通过从头构建整个框架来熟悉所有细
 
 ## 0 为何而生
 很多人可能有疑问：mmdetection那么好用，你为啥要自己又写一遍呢？没事干？
-其实不然，基于我目前的理解，出于一下几点原因：
+其实不然，基于我目前的理解，出于以下几点原因：
 
 - **学习目的**
 mmdetection无疑是非常优异的目标检测框架，但是其整个框架代码其实非常多。我希望通过从0构建整个
@@ -40,6 +40,7 @@ mmdetection无疑是非常优异的目标检测框架，但是其整个框架代
 - [x] darknet-yolov4
 - [x] darknet-tiny_yolov3
 - [x] darknet-tiny_yolov4
+- [x] yolov5(s/m/l/x全部支持)
 
 ## 4 模型仓库
 [文档链接](./docs/model_zoo.md)
@@ -97,7 +98,17 @@ python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../
 
 4. 然后就可以直接训练或者测试了
 
-   
+
+### 7.3 yolov5权重转化为mmdetection
+
+转化脚本在tools/darknet里面。以yolov5s为例
+
+1. https://github.com/ultralytics/yolov5/releases/tag/v3.0 处下载yolo5s.pt或者直接运行convert_yolov5_weights_step1.py脚本，会自动下载
+2. 运行convert_yolov5_weights_step1.py脚本，但是不好意思，你不能直接在我写的路径下运行，你需要将本脚本copy到yolov5工程目录下运行，并且必须pytorch版本大于等于1.6，原因是其保存的权重包括了picker对象，如果不放在相同路径下无法重新加载
+3. 利用上一步所得权重，然后运行tools/darknet/convert_yolov5_weights_step2.py(在本框架中运行)，得到最终转化模型
+4. 然后修改configs/yolo/rr_yolov5_416_coco.py对应的路径就可以进行前向测试或者mAP计算了
+
+支持yolov5所有模型
 
 ## 8 mmdetection-mini独有特性
 
@@ -110,8 +121,33 @@ python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../
 - 数据分析工具(hw ratio/hw scale/anchor kmean)tools/dataset_analyze
 - 正样本可视化，需要开启debug模式
 - 支持darknet系列模型权重在mmdetection中训练，目前支持4个主流模型yolov3/v4和tiny-yolov3/v4
+- coco数据可视化工具，包括显示所有label和仅仅显示gt bbox格式，显示效果极佳(即使是voc数据，也推荐先转化为coco)
+- 支持任意数据格式转coco类CocoCreator
+- yolov5转化工具tools/darknet/convert_yolov5_weights_step2.py
+
+
+## 9 mmdetection-mini工具汇总
+- voc2coco工具 tools/convert/voc2coco
+- 数据浏览工具 tools/browse_dataset
 
 
 ## 笔记(持续更新)
 
-[第一篇：mmdetection最小复刻版(一)：整体概览](https://www.zybuluo.com/huanghaian/note/1742545)
+[第一篇：mmdetection最小复刻版(一)：整体概览](https://www.zybuluo.com/huanghaian/note/1742545)  
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/252616317)   
+[第二篇：mmdetection最小复刻版(二)：RetinaNet和YoloV3分析](https://www.zybuluo.com/huanghaian/note/1742594)    
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/259487104)  
+[第三篇：mmdetection最小复刻版(三)：神兵利器](https://www.zybuluo.com/huanghaian/note/1743266)  
+[第四篇：mmdetection最小复刻版(四)：独家yolo转化内幕](https://www.zybuluo.com/huanghaian/note/1744915)      
+[第五篇：mmdetection最小复刻版(五)：yolov5转化内幕](https://www.zybuluo.com/huanghaian/note/1745145)  
+
+
+## 帮助
+
+如果使用本框架有啥问题，想立刻联系我或者参与讨论的，可以加我微信，我拉你进入讨论群，微信号：hhahuanghaian .
+请注明：mmdetection-mini，否则不会通过！  
+
+
+
+
+       

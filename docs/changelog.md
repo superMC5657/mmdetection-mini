@@ -1,5 +1,28 @@
 # ChangeLog
 
+## V0.0.4
+### 2020.09.23
+**(1) 新特性**
+- 新增letterresize操作，和yolov5的detector数据处理一致
+- 分析yolov5和mmdetection-mini mAP不一致的原因
+
+
+### 2020.09.23
+**(1) 新特性**
+- 新增yolov5的s/m/l/x模型
+- 新增yolov5转化为mmdetection-mini脚本
+
+
+## V0.0.3
+### 2020.09.18
+**(1) 新特性**
+- 新增coco可视化工具，包括显示所有label和仅仅显示gt bbox格式，显示效果极佳
+- 新增voc2coco工具
+- 新增coco格式的voc数据datasets
+- 新增coco格式的wider face数据datasets
+- 新增任意数据格式转coco类CocoCreator
+- 新增wider face转coco格式工具toos/convert
+
 
 ## V0.0.2
 ### 2020.09.17
