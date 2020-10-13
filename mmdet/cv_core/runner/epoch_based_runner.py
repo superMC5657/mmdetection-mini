@@ -6,18 +6,34 @@ import time
 import warnings
 
 import torch
-
 from mmdet import cv_core
+from .builder import RUNNERS
 from .base_runner import BaseRunner
 from .checkpoint import save_checkpoint
 from .utils import get_host_info
 
-
+@RUNNERS.register_module()
 class EpochBasedRunner(BaseRunner):
     """Epoch-based Runner.
 
     This runner train models epoch by epoch.
     """
+
+    def run_iter(self, data_batch, train_mode, **kwargs):
+        if self.batch_processor is not None:
+            outputs = self.batch_processor(
+                self.model, data_batch, train_mode=train_mode, **kwargs)
+        elif train_mode:
+            outputs = self.model.train_step(data_batch, self.optimizer,
+                                            **kwargs)
+        else:
+            outputs = self.model.val_step(data_batch, self.optimizer, **kwargs)
+        if not isinstance(outputs, dict):
+            raise TypeError('"batch_processor()" or "model.train_step()"'
+                            'and "model.val_step()" must return a dict')
+        if 'log_vars' in outputs:
+            self.log_buffer.update(outputs['log_vars'], outputs['num_samples'])
+        self.outputs = outputs
 
     def train(self, data_loader, **kwargs):
         self.model.train()
@@ -29,20 +45,7 @@ class EpochBasedRunner(BaseRunner):
         for i, data_batch in enumerate(self.data_loader):
             self._inner_iter = i
             self.call_hook('before_train_iter')
-            if self.batch_processor is None:
-                # 由于model其实被MMDataParallel包裹，故先调用MMDataParallel.train_step方法
-                outputs = self.model.train_step(data_batch, self.optimizer,
-                                                **kwargs)
-            else:
-                outputs = self.batch_processor(
-                    self.model, data_batch, train_mode=True, **kwargs)
-            if not isinstance(outputs, dict):
-                raise TypeError('"batch_processor()" or "model.train_step()"'
-                                ' must return a dict')
-            if 'log_vars' in outputs:
-                self.log_buffer.update(outputs['log_vars'],
-                                       outputs['num_samples'])
-            self.outputs = outputs
+            self.run_iter(data_batch, train_mode=True)
             self.call_hook('after_train_iter')
             self._iter += 1
 
@@ -59,24 +62,12 @@ class EpochBasedRunner(BaseRunner):
             self._inner_iter = i
             self.call_hook('before_val_iter')
             with torch.no_grad():
-                if self.batch_processor is None:
-                    outputs = self.model.val_step(data_batch, self.optimizer,
-                                                  **kwargs)
-                else:
-                    outputs = self.batch_processor(
-                        self.model, data_batch, train_mode=False, **kwargs)
-            if not isinstance(outputs, dict):
-                raise TypeError('"batch_processor()" or "model.val_step()"'
-                                ' must return a dict')
-            if 'log_vars' in outputs:
-                self.log_buffer.update(outputs['log_vars'],
-                                       outputs['num_samples'])
-            self.outputs = outputs
+                self.run_iter(data_batch, train_mode=False)
             self.call_hook('after_val_iter')
 
         self.call_hook('after_val_epoch')
 
-    def run(self, data_loaders, workflow, max_epochs, **kwargs):
+    def run(self, data_loaders, workflow, max_epochs=None, **kwargs):
         """Start running.
 
         Args:
@@ -92,7 +83,14 @@ class EpochBasedRunner(BaseRunner):
         assert cv_core.is_list_of(workflow, tuple)
         assert len(data_loaders) == len(workflow)
 
-        self._max_epochs = max_epochs
+        if max_epochs is not None:
+            warnings.warn(
+                'setting max_epochs in run is deprecated, '
+                'please set max_epochs in runner_config', DeprecationWarning)
+            self._max_epochs = max_epochs
+
+        assert self._max_epochs is not None, (
+            'max_epochs must be specified during instantiation')
         for i, flow in enumerate(workflow):
             mode, epochs = flow
             if mode == 'train':
@@ -172,7 +170,7 @@ class EpochBasedRunner(BaseRunner):
             else:
                 shutil.copy(filename, dst_file)
 
-
+@RUNNERS.register_module()
 class Runner(EpochBasedRunner):
     """Deprecated name of EpochBasedRunner."""
 

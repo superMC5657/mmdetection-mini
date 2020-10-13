@@ -1,7 +1,17 @@
 # ChangeLog
 
 ## V0.0.4
-### 2020.09.23
+### 2020.10.13
+**(1) 新特性**
+- 同步mmcv和mmdetection
+- 新增FCOS模型
+- 新增FCOS分析代码 
+
+### 2020.10.08
+**(1) 新特性**
+- 同步mmcv和mmdetection
+
+### 2020.09.28
 **(1) 新特性**
 - 新增letterresize操作，和yolov5的detector数据处理一致
 - 分析yolov5和mmdetection-mini mAP不一致的原因
