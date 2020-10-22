@@ -4,6 +4,11 @@ cuda编译： python setup.py develop
 ../configs/retinanet/retinanet_r50_fpn_coco.py
 ../configs/retinanet/retinanet_r50_fpn_voc.py
 ../configs/fcos/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_4x4_1x_coco.py
+../configs/atss/atss_r50_fpn_1x_coco.py
+../configs/ghm/retinanet_ghm_r50_fpn_1x_coco.py
+../configs/gfl/gfl_r50_fpn_1x_coco.py
+../configs/pisa/pisa_retinanet_r50_fpn_1x_coco.py
+../configs/paa/paa_r50_fpn_1x_coco.py
 
 
 demo: demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../tools/work_dirs/retinanet_r50_fpn_coco/latest.pth
@@ -29,8 +34,8 @@ test:
 
 
 当前同步更新日期:
-    mmcv: add switch for onnx exporter (#607) robin Han* 2020/10/11 下午6:11
-    mmdetection: Added `generate_inputs_and_wrap_model` function for pytorch2onnx (#3857) Ryan Li* 2020/10/12 下午3:57
+    mmcv: Skip opencv requirement if it's already installed in the env (i.e. via conda) (#616) David de la Iglesia Castro* 2020/10/17 下午5:58
+    mmdetection: [enhance]: Use RoIAlign implemented in MMCV for inference in CPU mode (#3930) RunningLeon* 2020/10/19 下午9:37
 
 
 ../configs/yolo/yolov3_d53_320_273e_coco.py  /home/hha/Downloads/yolov3_d53_320_273e_coco-421362b6.pth

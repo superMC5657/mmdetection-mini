@@ -7,8 +7,12 @@ from .rr_tiny_yolov4_head import RRTinyYolov4Head
 from .rr_yolov5_head import RRYolov5Head
 from .anchor_free_head import AnchorFreeHead
 from .fcos_head import FCOSHead
+from .atss_head import ATSSHead
+from .gfl_head import GFLHead
+from .pisa_retinanet_head import PISARetinaHead
+from .paa_head import PAAHead
 
 __all__ = [
     'AnchorHead', 'RetinaHead', 'YOLOV3Head', 'RRYolov3Head', 'RRTinyYolov3Head', 'RRTinyYolov4Head', 'RRYolov5Head',
-    'AnchorFreeHead', 'FCOSHead'
+    'AnchorFreeHead', 'FCOSHead', 'ATSSHead', 'GFLHead', 'PISARetinaHead', 'PAAHead'
 ]

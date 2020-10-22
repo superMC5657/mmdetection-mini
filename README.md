@@ -42,6 +42,12 @@ mmdetection无疑是非常优异的目标检测框架，但是其整个框架代
 - [x] darknet-tiny_yolov4
 - [x] yolov5(s/m/l/x全部支持)   
 - [x] fcos  
+- [x] atss    
+- [x] ghm  
+- [x] gfl    
+- [x] pisa  
+- [x] paa  
+
 
 ## 4 模型仓库
 [文档链接](./docs/model_zoo.md)
@@ -141,10 +147,18 @@ python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../
 [第三篇：mmdetection最小复刻版(三)：神兵利器](https://www.zybuluo.com/huanghaian/note/1743266)    
 或者 [知乎文章](https://zhuanlan.zhihu.com/p/259963010)  
 [第四篇：mmdetection最小复刻版(四)：独家yolo转化内幕](https://www.zybuluo.com/huanghaian/note/1744915)      
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/265950384)         
 [第五篇：mmdetection最小复刻版(五)：yolov5转化内幕](https://www.zybuluo.com/huanghaian/note/1745145)    
-[第六篇：mmdetection最小复刻版(六)：FCOS深入可视化分析](https://www.zybuluo.com/huanghaian/note/1747551)
-
-
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/266916615)     
+[第六篇：mmdetection最小复刻版(六)：FCOS深入可视化分析](https://www.zybuluo.com/huanghaian/note/1747551)     
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/267346645)  
+[第七篇：mmdetection最小复刻版(七)：anchor-base和anchor-free差异分析](https://www.zybuluo.com/huanghaian/note/1748811)      
+[第八篇：mmdetection最小复刻版(八)：梯度均衡机制GHM深入分析](https://www.zybuluo.com/huanghaian/note/1749031)   
+[第九篇：mmdetection最小复刻版(九)：广义FocalLoss深入分析](https://www.zybuluo.com/huanghaian/note/1749472)    
+[第十篇：mmdetection最小复刻版(十)：mAP和PISA深入分析](https://www.zybuluo.com/huanghaian/note/1749740)      
+[第十一篇:mmdetection最小复刻版(十一)：概率Anchor分配机制PAA深入分析](https://www.zybuluo.com/huanghaian/note/1750308)    
+  
+  
 ## 帮助
 
 如果使用本框架有啥问题，想立刻联系我或者参与讨论的，可以加我微信，我拉你进入讨论群，微信号：hhahuanghaian .
