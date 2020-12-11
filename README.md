@@ -2,7 +2,10 @@
 mmdetection的mini版本，主要包括一阶段目标检测器，结构和
 mmdetection完全一致，系统通过从头构建整个框架来熟悉所有细节
 
-## 0 为何而生
+## 0 蓝图
+本仓库属于长期项目，计划分成n个阶段，每个阶段做啥事情我已经有打算了，目前还处于第一阶段：**解读mmdet已经复现的算法**。这个阶段主要是对mmdet已经复现的代码进行深度分析，每个算法都会有配套的详细论文和代码实现解读(后续会增加视频解读和汇总版解读文档)。故如果大家早当前阶段想利用本框架进行重新训练，最好还是直接用mmdet官方代码库，在后续阶段会重构训练逻辑代码，新增对比实验等等操作，请各位朋友不要着急！
+
+## 1 为何而生
 很多人可能有疑问：mmdetection那么好用，你为啥要自己又写一遍呢？没事干？
 其实不然，基于我目前的理解，出于以下几点原因：
 
@@ -19,7 +22,7 @@ mmdetection无疑是非常优异的目标检测框架，但是其整个框架代
 如果直接加到mmdetection上面，会改动一些代码，一旦pull又有冲突。由于同步mmdetection过程是手动的，新增特征
 也不会出现冲突
 
-## 1 介绍
+## 2 介绍
 
 完全基于mmdetection框架结构,简称mmdet最简学习版，**基于最简实现，第一原则就是简洁，不会加入一些乱七八糟的功能，一步一步构建一阶段目标检测器**。
 主要目的为在从0构建整个框架的基础上，掌握整个目标检测实现细节。 并且方便新增自己想要实现的部分。
@@ -30,10 +33,10 @@ mmdetection无疑是非常优异的目标检测框架，但是其整个框架代
 
 **更新可能是快时慢。在掌握每个细节后才会增加新代码，欢迎有兴趣的朋友共同学习，也欢迎提出意见。**
 
-## 2 提交日志
+## 3 提交日志
 [文档链接](./docs/changelog.md)
 
-## 3 已实现模型
+## 4 已实现模型
 - [x] retinanet
 - [x] yolov3
 - [x] darknet-yolov3
@@ -46,18 +49,39 @@ mmdetection无疑是非常优异的目标检测框架，但是其整个框架代
 - [x] ghm  
 - [x] gfl    
 - [x] pisa  
-- [x] paa  
+- [x] paa
+- [x] faster rcnn     
+- [x] cascade rcnn     
+- [x] libra rcnn
+- [x] dynamic rcnn
+- [x] ssd
+- [x] vfnet 
+- [x] guided anchoring
+- [x] sabl  
+- [x] reppoints    
+- [x] reppointsv2    
+- [x] cornernet   
+- [ ] centripetalnet    
 
 
-## 4 模型仓库
+## 5 模型仓库
 [文档链接](./docs/model_zoo.md)
 
 
-## 5 安装说明
-[文档链接](./docs/install.md)
+## 6 安装说明
+可选安装流程：
+[文档链接](./docs/install.md)  
+
+推荐安装流程：
+考虑到很多人反映cuda无法编译成功，故本仓库将直接采用mmcv里面已经编译好的代码,新安装流程是：
+
+1. 提前安装mmcv-full对应的最新版本,参考https://github.com/open-mmlab/mmdetection/blob/master/docs/get_started.md
+2. 不再需要python setup.py develop
+
+也就是说mmdet/cv_core/ops/csrc里面的代码是废弃的。我们目前采用的环境是 pytorch1.3+Python 3.6+CUDA10.1+MMCV1.1.5
 
 
-## 6 统一数据集
+## 7 统一数据集
    由于coco训练集图片太多了，跑到论文效果需要非常多时间，而本框架目的主要目的是快速验证
 思想和算法(代码和mmdetection一致，应该没有错误)，故对主要以voc为主：
 - coco
@@ -65,8 +89,8 @@ mmdetection无疑是非常优异的目标检测框架，但是其整个框架代
 - wider face
 
 
-## 7 使用说明
-### 7.1 训练、测试和demo使用说明
+## 8 使用说明
+### 8.1 训练、测试和demo使用说明
 
 开启训练过程和mmdetection完全一致，例如：
 
@@ -89,7 +113,7 @@ python test.py ../configs/retinanet/retinanet_r50_fpn_coco.py ../tools/work_dirs
 python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../tools/work_dirs/retinanet_r50_fpn_coco/latest.pth
 ```
 
-### 7.2 darknet权重转化为mmdetection
+### 8.2 darknet权重转化为mmdetection
 
 转化脚本在tools/darknet里面
 
@@ -106,7 +130,7 @@ python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../
 4. 然后就可以直接训练或者测试了
 
 
-### 7.3 yolov5权重转化为mmdetection
+### 8.3 yolov5权重转化为mmdetection
 
 转化脚本在tools/darknet里面。以yolov5s为例
 
@@ -117,7 +141,7 @@ python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../
 
 支持yolov5所有模型
 
-## 8 mmdetection-mini独有特性
+## 9 mmdetection-mini独有特性
 
 - loss分析工具 tools/loss_analyze.py
 - anchor分析工具 tools/anchor_analyze.py
@@ -133,7 +157,7 @@ python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../
 - yolov5转化工具tools/darknet/convert_yolov5_weights_step2.py
 
 
-## 9 mmdetection-mini工具汇总
+## 10 mmdetection-mini工具汇总
 - voc2coco工具 tools/convert/voc2coco
 - 数据浏览工具 tools/browse_dataset
 
@@ -153,18 +177,45 @@ python image_demo.py demo.jpg ../configs/retinanet/retinanet_r50_fpn_coco.py ../
 [第六篇：mmdetection最小复刻版(六)：FCOS深入可视化分析](https://www.zybuluo.com/huanghaian/note/1747551)     
 或者 [知乎文章](https://zhuanlan.zhihu.com/p/267346645)  
 [第七篇：mmdetection最小复刻版(七)：anchor-base和anchor-free差异分析](https://www.zybuluo.com/huanghaian/note/1748811)      
-[第八篇：mmdetection最小复刻版(八)：梯度均衡机制GHM深入分析](https://www.zybuluo.com/huanghaian/note/1749031)   
-[第九篇：mmdetection最小复刻版(九)：广义FocalLoss深入分析](https://www.zybuluo.com/huanghaian/note/1749472)    
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/272471302)     
+[第八篇：mmdetection最小复刻版(八)：梯度均衡机制GHM深入分析](https://www.zybuluo.com/huanghaian/note/1749031)    
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/272474618)    
+[第九篇：mmdetection最小复刻版(九)：广义FocalLoss深入分析](https://www.zybuluo.com/huanghaian/note/1749472)   
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/271636072)   
 [第十篇：mmdetection最小复刻版(十)：mAP和PISA深入分析](https://www.zybuluo.com/huanghaian/note/1749740)      
-[第十一篇:mmdetection最小复刻版(十一)：概率Anchor分配机制PAA深入分析](https://www.zybuluo.com/huanghaian/note/1750308)    
-  
-  
-## 帮助
+[第十一篇：mmdetection最小复刻版(十一)：概率Anchor分配机制PAA深入分析](https://www.zybuluo.com/huanghaian/note/1750308)      
+[第十二篇：mmdetection最小复刻版(十二)：Faster RCNN深入分析]()    
+[第十三篇：mmdetection最小复刻版(十三)：超强cascade rcnn算法分析](https://www.zybuluo.com/huanghaian/note/1751181)    
+[第十四篇：mmdetection最小复刻版(十四)：检测器不平衡处理Libra rcnn](https://www.zybuluo.com/huanghaian/note/1751369)    
+[第十五篇：mmdetection最小复刻版(十五)：two-stage动态版本dynamic rcnn](https://www.zybuluo.com/huanghaian/note/1751370)   
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/272473267)   
+[第十六篇：mmdetection最小复刻版(十六)：iou感知VarifocalNet深入分析](https://www.zybuluo.com/huanghaian/note/1753374)  
+或者 [知乎文章](https://zhuanlan.zhihu.com/p/271757527)     
+[第十七篇：mmdetection最小复刻版(十七)：语义导向anchor生成](https://www.zybuluo.com/huanghaian/note/1753795)    
+[第十八篇：mmdetection最小复刻版(十八)：Side-Aware边界框定位](https://www.zybuluo.com/huanghaian/note/1753776)      
+[第十九篇：mmdetection最小复刻版(十九)：点集表示法RepPoints](https://www.zybuluo.com/huanghaian/note/1754350)     
+[第二十篇：mmdetection最小复刻版(二十)：加入验证任务的RepPointsV2](https://www.zybuluo.com/huanghaian/note/1754857)     
+[第二十一篇：mmdetection最小复刻版(二十一)：关键点检测思路CornerNet分析](https://www.zybuluo.com/huanghaian/note/1755495)    
+[第二十二篇：mmdetection最小复刻版(二十二)：引入向心力解决CornerNet虚检问题](https://www.zybuluo.com/huanghaian/note/1755583)    
 
-如果使用本框架有啥问题，想立刻联系我或者参与讨论的，可以加我微信，我拉你进入讨论群，微信号：hhahuanghaian .
-请注明：mmdetection-mini，否则不会通过！  
+[3W字长文带你轻松入门视觉transformer](https://www.zybuluo.com/huanghaian/note/1757637)   
+## other
+
+1. 目标检测通用算法流程
+2. yolov1深入解读
+3. ssd深入解读
+4. yolov2深入解读
+5. yolov3深入解读
+6. retinanet深入解读
+7. rpn深度解读
+8. faster rcnn深入解读
+9. fpn深入解读
+10. mask rcnn深入解读
+11. cascade rcnn深入解读
+12. fcos深入解读
 
 
 
 
-       
+
+​       

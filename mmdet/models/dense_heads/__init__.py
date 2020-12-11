@@ -1,3 +1,5 @@
+from .rpn_head import RPNHead
+from .rpn_test_mixin import RPNTestMixin
 from .anchor_head import AnchorHead
 from .retina_head import RetinaHead
 from .yolo_head import YOLOV3Head
@@ -11,8 +13,18 @@ from .atss_head import ATSSHead
 from .gfl_head import GFLHead
 from .pisa_retinanet_head import PISARetinaHead
 from .paa_head import PAAHead
+from .ssd_head import SSDHead
+from .vfnet_head import VFNetHead
+from .guided_anchor_head import GuidedAnchorHead
+from .ga_retina_head import GARetinaHead
+from .sabl_retina_head import SABLRetinaHead
+from .reppoints_head import RepPointsHead
+from .reppoints_v2_head import RepPointsV2Head
+from .corner_head import CornerHead
 
 __all__ = [
-    'AnchorHead', 'RetinaHead', 'YOLOV3Head', 'RRYolov3Head', 'RRTinyYolov3Head', 'RRTinyYolov4Head', 'RRYolov5Head',
-    'AnchorFreeHead', 'FCOSHead', 'ATSSHead', 'GFLHead', 'PISARetinaHead', 'PAAHead'
+    'RPNHead', 'RPNTestMixin', 'AnchorHead', 'RetinaHead', 'YOLOV3Head', 'RRYolov3Head', 'RRTinyYolov3Head',
+    'RRTinyYolov4Head', 'RRYolov5Head', 'SSDHead', 'VFNetHead', 'GARetinaHead', 'GuidedAnchorHead',
+    'AnchorFreeHead', 'FCOSHead', 'ATSSHead', 'GFLHead', 'PISARetinaHead', 'PAAHead', 'SABLRetinaHead',
+    'RepPointsHead', 'RepPointsV2Head', 'CornerHead'
 ]
